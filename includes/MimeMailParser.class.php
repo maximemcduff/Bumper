@@ -111,6 +111,8 @@ class MimeMailParser {
          * @param $data String
          */
         public function setText($data) {
+error_log("Starting pipe-auth ...".$data); // We notice that it's starting ...
+
                 $this->resource = mailparse_msg_create();
                 // does not parse incrementally, fast memory hog might explode
                 mailparse_msg_parse($this->resource, $data);

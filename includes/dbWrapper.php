@@ -2,7 +2,7 @@
 Class dbWrapper {
     protected $_mysqli;
     protected $_debug;
- 
+
     public function __construct($host, $username, $password, $database, $debug) {
         $this->_mysqli = new mysqli($host, $username, $password, $database);
         $this->_debug = (bool) $debug;
@@ -15,7 +15,7 @@ Class dbWrapper {
         }
         return true;
     }
- 
+
     public function q($query) {
         if ($query = $this->_mysqli->prepare($query)) {
             if (func_num_args() > 1) {
@@ -24,12 +24,12 @@ Class dbWrapper {
                     array_slice($x, 2));
                 $args_ref = array();
                 foreach($args as $k => &$arg) {
-                    $args_ref[$k] = &$arg; 
+                    $args_ref[$k] = &$arg;
                 }
                 call_user_func_array(array($query, 'bind_param'), $args_ref);
             }
             $query->execute();
- 
+
             if ($query->errno) {
               if ($this->_debug) {
                 echo mysqli_error($this->_mysqli);
@@ -37,7 +37,7 @@ Class dbWrapper {
               }
               return false;
             }
- 
+
             if ($query->affected_rows > -1) {
                 return $query->affected_rows;
             }
@@ -47,7 +47,7 @@ Class dbWrapper {
                 $params[] = &$row[$field->name];
             }
             call_user_func_array(array($query, 'bind_result'), $params);
- 
+
             $result = array();
             while ($query->fetch()) {
                 $r = array();
@@ -56,7 +56,7 @@ Class dbWrapper {
                 }
                 $result[] = $r;
             }
-            $query->close(); 
+            $query->close();
             return $result;
         } else {
             if ($this->_debug) {
@@ -66,7 +66,7 @@ Class dbWrapper {
             return false;
         }
     }
- 
+
     public function handle() {
         return $this->_mysqli;
     }

@@ -11,23 +11,23 @@ class logmein {
     var $database_logon = DBNAME;       //Database NAME
     var $username_logon = DBUSER;       //Database USERNAME
     var $password_logon = DBPASS;       //Database PASSWORD
- 
+
     //table fields
     var $user_table = 'logon';          //Users table name
     var $user_column = 'userEmail';     //USERNAME column (value MUST be valid email)
     var $pass_column = 'password';      //PASSWORD column
     var $user_level = 'userLevel';      //(optional) userlevel column
- 
+
     //encryption
     var $encrypt = true;       //set to true to use md5 encryption for the password
- 
-    //connect to database
+
+   //connect to database
     function dbconnect(){
         $connections = mysql_connect($this->hostname_logon, $this->username_logon, $this->password_logon) or die ('Unabale to connect to the database');
         mysql_select_db($this->database_logon) or die ('Unable to select database!');
         return;
     }
- 
+
     //login function
     function login($table, $username, $password){
         //conect to DB
@@ -58,9 +58,9 @@ class logmein {
         }else{
             return false;
         }
- 
+
     }
- 
+
     //prevent injection
     function qry($query) {
       $this->dbconnect();
@@ -78,13 +78,13 @@ class logmein {
              return $result;
           }
     }
- 
+
     //logout function
     function logout(){
         session_destroy();
         return;
     }
- 
+
     //check if loggedin
     function logincheck($logincode, $user_table, $pass_column, $user_column){
         //conect to DB
@@ -111,14 +111,14 @@ class logmein {
             }
         }
     }
- 
+
     //reset password
     function passwordreset($username, $user_table, $pass_column, $user_column){
         //conect to DB
         $this->dbconnect();
         //generate new password
         $newpassword = $this->createPassword();
- 
+
         //make sure password column and table are set
         if($this->pass_column == ""){
             $this->pass_column = $pass_column;
@@ -135,17 +135,17 @@ class logmein {
         }else{
             $newpassword_db = $newpassword;
         }
- 
+
         //update database with new password
         $qry = "UPDATE ".$this->user_table." SET ".$this->pass_column."='".$newpassword_db."' WHERE ".$this->user_column."='".stripslashes($username)."'";
         $result = mysql_query($qry) or die(mysql_error());
- 
+
         $to = stripslashes($username);
         //some injection protection
         $illegals=array("%0A","%0D","%0a","%0d","bcc:","Content-Type","BCC:","Bcc:","Cc:","CC:","TO:","To:","cc:","to:");
         $to = str_replace($illegals, "", $to);
         $getemail = explode("@",$to);
- 
+
         //send only if there is one email
         if(sizeof($getemail) > 2){
             return false;
@@ -154,16 +154,16 @@ class logmein {
             $from = $_SERVER['SERVER_NAME'];
             $subject = "Password Reset: ".$_SERVER['SERVER_NAME'];
             $msg = "
- 
+
 Your new password is: ".$newpassword."
- 
+
 ";
- 
+
             //now we need to set mail headers
             $headers = "MIME-Version: 1.0 rn" ;
             $headers .= "Content-Type: text/html; \r\n" ;
             $headers .= "From: $from  \r\n" ;
- 
+
             //now we are ready to send mail
             $sent = mail($to, $subject, $msg, $headers);
             if($sent){
@@ -173,7 +173,7 @@ Your new password is: ".$newpassword."
             }
         }
     }
- 
+
     //create random password with 8 alphanumerical characters
     function createPassword() {
         $chars = "abcdefghijkmnopqrstuvwxyz023456789";
@@ -188,7 +188,7 @@ Your new password is: ".$newpassword."
         }
         return $pass;
     }
- 
+
     //login form
     function loginform($formname, $formclass, $formaction){
         //conect to DB
@@ -203,7 +203,7 @@ Your new password is: ".$newpassword."
 <div>
 <input name="submit" id="submit" value="Login" type="submit"></div>
 </form>
- 
+
 ';
     }
     //reset password form
@@ -218,7 +218,7 @@ Your new password is: ".$newpassword."
 <div>
 <input name="submit" id="submit" value="Reset Password" type="submit"></div>
 </form>
- 
+
 ';
     }
     //function to install logon table

@@ -2,7 +2,7 @@
 require_once('../../includes/dbWrapper.php');
 error_reporting(0);
 
-if ($_POST['action'] == 'checkdb') : 
+if ($_POST['action'] == 'checkdb') :
 //************************************  check to make sure we can connect to db and that it is empty
 $db = new dbWrapper($_POST['dbhost'], $_POST['dbuser'], $_POST['dbpassword'], $_POST['dbname'], true);
 if (!$db or $db == '' or empty($db)) {
@@ -35,10 +35,10 @@ $result = $db->q("CREATE TABLE allowedEmails (
 ) TYPE=MyISAM");
 $result = $db->q("CREATE TABLE bumpQueue (
   bumpId int(11) NOT NULL auto_increment PRIMARY KEY,
-  fromEmail varchar(50) NOT NULL default '', 
+  fromEmail varchar(50) NOT NULL default '',
   subject varchar(50),
   body text,
-  timeToSend int(11)  
+  timeToSend int(11)
 ) TYPE=MyISAM");
 $result = $db->q("CREATE INDEX timeToSend USING BTREE ON bumpQueue (timeToSend)");
 //************************************  create config file secure it, and make sure that inbox.php is accessible

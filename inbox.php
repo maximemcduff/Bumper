@@ -1,7 +1,7 @@
 #! /usr/bin/php -q
 <?php
 
-require_once('includes/MimeMailParser.class.php');  
+require_once('includes/MimeMailParser.class.php');
 require_once('includes/dbWrapper.php');
 require_once('includes/bumper.config');
 error_reporting(0);
@@ -13,18 +13,18 @@ while (!feof($fd)) {
 $email .= fread($fd, 1024);
 }
 fclose($fd);
-  
-//************************************   instantiate  
-$Parser = new MimeMailParser();  
-//************************************   read the email from stdin  
-$Parser->setText($email);  
-  
-//************************************   get the email parts   
-$delivered_to = $Parser->getHeader('delivered-to');  
-$from = $Parser->getHeader('from');  
-$subject = $Parser->getHeader('subject');  
-$text = $Parser->getMessageBody('text');  
-$html = $Parser->getMessageBody('html'); 
+
+//************************************   instantiate
+$Parser = new MimeMailParser();
+//************************************   read the email from stdin
+$Parser->setText($email);
+
+//************************************   get the email parts
+$delivered_to = $Parser->getHeader('delivered-to');
+$from = $Parser->getHeader('from');
+$subject = $Parser->getHeader('subject');
+$text = $Parser->getMessageBody('text');
+$html = $Parser->getMessageBody('html');
 
 //************************************  find the address used to contact Bumper by matching domain
 
@@ -43,7 +43,7 @@ $fromformat = strpos($from, '<');
 $fromemail = $from;
 if ($fromformat != false) :
 $fromsplit = explode('<', $from);
-$fromsplit = str_replace('>', '', $fromsplit[1]); 
+$fromsplit = str_replace('>', '', $fromsplit[1]);
 $fromemail = $fromsplit;
 endif;
 
@@ -55,10 +55,10 @@ foreach($result as $email) :
 date_default_timezone_set($email['timeZone']);
 $emailformat = $email['emailFormat'];
 endforeach;
-$when=explode('@', $to);		
+$when=explode('@', $to);
 $hyphens = strpos($when[0], '-');
 //************************************  check # of parameters sent
-if ($hyphens == false) : 
+if ($hyphens == false) :
 //************************************  if one parameter, check validity
 	if (strtotime($when[0]) == '') {
 		$content = $to.' could not be translated into a reminder time. See the usage instructions below'."\n\n";
@@ -78,7 +78,7 @@ foreach ($months as $month) if (stristr($when[0], $month) != FALSE and stristr($
 if ($isdate == 1 or $isweekday == 1) :
 	$date = date('m/d/Y', strtotime($when[0]));
 	$time = '03:00PM';
-	$resendtime = $date.' '.$time;	
+	$resendtime = $date.' '.$time;
 else:
 $resendtime = date('m/d/Y h:ia', strtotime($when[0]));
 endif;
@@ -107,7 +107,7 @@ if (!$thetime or $thetime == '') $thetime = '03:00PM';
 //************************************  set the resend time
 $resendtime = $thedate.' '.$thetime;
 endif;
-//************************************  if resend time is more than 24 hours in the past we bump it up a year	
+//************************************  if resend time is more than 24 hours in the past we bump it up a year
 	if (strtotime('now') - strtotime($resendtime) > 86400) :
 		$nextyear = date('Y', strtotime($resendtime)) + 1;
 		$adjustdaymonth = date('m/d', strtotime($resendtime));

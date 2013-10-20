@@ -7,7 +7,7 @@
 // DESCRIPTION:
 // The TimezoneSelector dynamically creates a <select></select> control.
 // It lets you include the current date and time in the given timezone by
-// specifying a 1 in the show() method. The date and time format can be 
+// specifying a 1 in the show() method. The date and time format can be
 // indicated in the optional string parameter which follows the standard
 // php date/time format string.
 //
@@ -16,11 +16,11 @@
 //
 //
 // USAGE:
-// 
+//
 //   $tzs = new TimezoneSelector(string $ControlName [, string $DefaultTimeZone [, string $ControlAttributes [, string $ClientTimeZoneJS ]]]);
 //
 //   $tzs->show([integer $OnOff [, string $DateFormat]]);
-// 
+//
 //
 // PARAMETERS:
 //
@@ -28,7 +28,7 @@
 //
 //   $ControlName - string (required)
 //      This is the name of the name attribute in the select control (i.e. <select name="thisIsWhatItIs">)
-// 
+//
 //   $DefaultTimeZone - string (optional)
 //      This is the time zone you want the control to be set to.
 //
@@ -51,7 +51,7 @@
 //
 //
 // USAGE EXAMPLES:
-// 
+//
 // Minimum:
 // --------
 //   $tzs = new TimezoneSelector("mySelectControlName");
@@ -84,7 +84,7 @@
 
 class TimezoneSelector {
   private $name;
-  private $clientOffset; 
+  private $clientOffset;
   private $extra;
   private $baseDateTime;
   private $controlTz;
@@ -115,7 +115,7 @@ class TimezoneSelector {
       return;
     }
 
-    printf('<select %s %s>', 
+    printf('<select %s %s>',
       $this->name ? "name=\"" . $this->name . "\"" : "",
       $this->extra);
 

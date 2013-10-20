@@ -6,13 +6,13 @@
     <link href="../css/style.css" media="screen" rel="stylesheet" type="text/css"/>
     <link href="../css/uniform.css" media="screen" rel="stylesheet" type="text/css"/>
 	<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.10/themes/flick/jquery-ui.css" media="screen" rel="stylesheet" type="text/css" />
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script> 
-	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/jquery-ui.js"></script> 
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/jquery-ui.js"></script>
 	<script type="text/javascript">
-		function validateEmail(email) 
-				{ 
-				 var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/ 
-				 return email.match(re) 
+		function validateEmail(email)
+				{
+				 var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+				 return email.match(re)
 				}
 		$(document).ready(function() {
 			$('#dbhost').click(function() {
@@ -22,16 +22,15 @@
 				$('#dbhost').addClass('clearedOnce');
 			    }
 			});
-		    
 			$('#configdb').click(function () {
-				if ( $('#dbname').val() == '' || $('#dbuser').val() == '' || $('#dbpassword').val() == '' || $('#dbhost').val() == '') 
-					{ 
+				if ( $('#dbname').val() == '' || $('#dbuser').val() == '' || $('#dbpassword').val() == '' || $('#dbhost').val() == '')
+					{
 					$('#formerrortext').text('All fields are required.');
 					$( "#formerror" ).dialog({
 							height: 140,
 							modal: true
 						});
-					return; 
+					return;
 					}
 					var data = {
 						action : 'checkdb',
@@ -52,23 +51,22 @@
 							height: 160,
 							modal: true
 							});
-						return; 
+						return;
 						}
 					$('#dbform').fadeOut('slow', function() {
 								$('#adminuserform').fadeIn('slow');
 					});
 				});
 			});
-			
 			$('#createadmin').click(function() {
-					if ( $('#adminemail').val() == '' || $('#adminpassword').val() == '') 
-					{ 
+					if ( $('#adminemail').val() == '' || $('#adminpassword').val() == '')
+					{
 					$('#formerrortext').text('All fields are required.');
 					$( "#formerror" ).dialog({
 							height: 140,
 							modal: true
 						});
-					return; 
+					return;
 					}
 					var validemail = validateEmail($('#adminemail').val());
 					if (validemail == null) {
@@ -77,7 +75,7 @@
 							height: 140,
 							modal: true
 						});
-					return; 
+					return;
 					}
 					var data = {
 						action : 'finishsetup',
@@ -100,7 +98,7 @@
 										height: 160,
 										modal: true
 										});
-									return; 
+									return;
 									} else {
 								$('#adminuserform').fadeOut('slow', function() {
 								$('#successful').fadeIn('slow');
@@ -116,7 +114,7 @@
     <!--[if IE]>
     <style type="text/css" media="all">
       @import "layout/ie-diff.css";
-    </style> 
+    </style>
     <![endif]-->
 
     <link rel="stylesheet" type="text/css" href="../layout/print.css" media="print" />
@@ -127,100 +125,78 @@
 <div id="main">
 	  <div id="outer-prettification">
 	    <div id="inner-prettification">
-	      
 	      <div id="header">
 		<h1 id="title"><span>Welcome to Bumper!</span></h1>
 	      </div>
-		  
 		  <div id="formerror" style="display:none;">
 			<div class="ui-state-error" id="formerrortext" style="text-align:center;font-size:18px;margin:30px auto 0;">
 			All fields are required.
 			</div>
 		  </div>
-	      
-	      <div id="contents">	
+	      <div id="contents">
     <?php if (!file_exists('../includes/bumper.config')) : ?>
 	 <div id="dbform">
-	 
+
 		 <div class="fancy">
 		  <p style="width:76%;margin:0 auto;">To begin you'll need an empty MySQL Database on your host.
 		  <br /><br />Fill out the form below to create Bumper tables in the Database.
 		  </p>
 		  </div>
-		  
-		  
 		<form class="TTWForm" method="post" novalidate="">
-          
-          
           <div id="field2-container" class="field f_100">
                <label for="field2">
                     Database Name
                </label>
                <input type="text" id="dbname" required="required">
           </div>
-          
-          
           <div id="field3-container" class="field f_100">
                <label for="field3">
                     Database User
                </label>
                <input type="text" id="dbuser" required="required">
           </div>
-          
-          
           <div id="field5-container" class="field f_100">
                <label for="field5">
                     Database Password
                </label>
                <input type="password" id="dbpassword" required="required">
           </div>
-	  
 	  <div id="field-dbh-container" class="field f_100">
                <label for="field5">
                     Database Host
                </label>
                <input type="text" id="dbhost" required="required" value="localhost">
-          </div> 
-          
+          </div>
           <div id="form-submit" class="field f_100 clearfix submit">
                <input type="button" id="configdb" value="Configure Database">
           </div>
      </form>
 	</div>
 	<div id="adminuserform" style="display:none;">
-			
 			<div class="fancy">
 		  <p style="width:76%;margin:0 auto;">Choose an email address for your admin username and create a password.
 		  <br /><br />Bumper will use this email in case you lose your password.
 		  </p>
 		  </div>
-	
 			<form class="TTWForm" method="post" novalidate="">
-           
-           
           <div id="field10-container" class="field f_100">
                <label for="field10">
                     Admin Email
                </label>
                <input type="text" id="adminemail" required="required">
           </div>
-           
-           
           <div id="field11-container" class="field f_100">
                <label for="field11">
                     Admin Password
                </label>
                <input type="password" id="adminpassword" required="required">
           </div>
-           
-           
           <div id="form-submit" class="field f_100 clearfix submit">
                <input type="button" id="createadmin" value="Create Admin Account and Finish Setup!">
           </div>
      </form>
 	</div>
 	<div id="successful" style="display:none;">
-			
 			<div class="fancy">
 		  <p style="width:76%;margin:0 auto;">Congratulations, you're all set up!
 		  </p>
@@ -235,12 +211,11 @@
 		  </div>
 	</div>
 			<?php else : ?>
-				
 				<div class="fancy">
 		  <p style="width:76%;margin:0 auto;font-size:22px;color:blue;text-align:left;">
 		  <span style="font-weight:bold;font-style:italic;">WARNING!</span><br /><br />
 		  You still have your Bumper setup folder on your server, which means anyone can wipe out your Bumper installation from a web browser.<br /><br />
-		  If you want to reinstall, please delete the "bumper.config" file from the BUMPER_INSTALLATION_FOLDER/includes directory and reload this page, otherwise 
+		  If you want to reinstall, please delete the "bumper.config" file from the BUMPER_INSTALLATION_FOLDER/includes directory and reload this page, otherwise
 		  please remove the BUMPER_INSTALLATION_FOLDER/setup directory to secure your server.
 		  </p>
 		  </div>
@@ -251,7 +226,6 @@
 		<p><a href="http://www.bumper.cc" title="Bumper Homepage">Bumper!</a></p>
 		<!-- You can do whatever you like here -->
 	      </div>
-	      
 	    </div>
 	  </div>
 	</div>

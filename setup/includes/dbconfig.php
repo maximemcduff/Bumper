@@ -26,20 +26,20 @@ $result = $db->q("CREATE TABLE logon (
   userEmail varchar(50) NOT NULL default '',
   password varchar(50) NOT NULL default '',
   userLevel int(1) NOT NULL default '0'
-) TYPE=MyISAM");
+) ");
 $result = $db->q("CREATE TABLE allowedEmails (
   emailId int(11) NOT NULL auto_increment PRIMARY KEY,
   allowedEmail varchar(50) NOT NULL default '',
   timeZone varchar(90) NOT NULL default '',
   emailFormat varchar(30) NOT NULL default ''
-) TYPE=MyISAM");
+) ");
 $result = $db->q("CREATE TABLE bumpQueue (
   bumpId int(11) NOT NULL auto_increment PRIMARY KEY,
   fromEmail varchar(50) NOT NULL default '',
   subject varchar(50),
   body text,
   timeToSend int(11)
-) TYPE=MyISAM");
+) ");
 $result = $db->q("CREATE INDEX timeToSend USING BTREE ON bumpQueue (timeToSend)");
 //************************************  create config file secure it, and make sure that inbox.php is accessible
 $fp = fopen('../../includes/bumper.config', 'w');
